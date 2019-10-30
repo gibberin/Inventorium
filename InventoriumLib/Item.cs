@@ -17,6 +17,8 @@ namespace InventoriumLib
         DateTime DateOfAcquisition { get; set; }
         DateTime ExpirationDate { get; set; }
 
+        Application Assignment { get; set; }
+
         float Height { get; set; }
         float Width { get; set; }
         float Depth { get; set; }
