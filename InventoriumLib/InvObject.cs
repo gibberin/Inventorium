@@ -5,6 +5,7 @@ namespace InventoriumLib
     public class InvObject
     {
         public Guid ID { get; set; }
+        public string OwnerID { get; set; }
         public Int64 Edition { get; set; }
         public String Name { get; set; }
         public DateTime Created { get; set; }

@@ -4,33 +4,32 @@ using System.Text;
 
 namespace InventoriumLib
 {
-    class OBC : Item
+    public class OBC : Item
     {
         IEnumerable<string> Interfaces;
 
-        string Platform { get; set; }
-        string CPU { get; set; }
-        float Voltage { get; set; }
-        float FlashMemory { get; set; }
-        float RAM { get; set; }
-        int GPIOCount { get; set; }
-        int AnalogPinCount { get; set; }
-        int PWMPinCount { get; set; }
-        int USBConnectorCount { get; set; }
-        bool PowerJack { get; set; }
-        bool USBPower { get; set; }
-        bool ResetButton { get; set; }
-        bool Wifi { get; set; }
-        bool Bluetooth { get; set; }
-        bool BLE { get; set; }
-        bool Out5V { get; set; }
-        bool Out3_3V { get; set; }
-        float MaxSourceAmps { get; set; }
+        public string Platform { get; set; }
+        public string CPU { get; set; }
+        public float Voltage { get; set; }
+        public float FlashMemory { get; set; }
+        public float RAM { get; set; }
+        public int GPIOCount { get; set; }
+        public int AnalogPinCount { get; set; }
+        public int PWMPinCount { get; set; }
+        public int USBConnectorCount { get; set; }
+        public bool PowerJack { get; set; }
+        public bool USBPower { get; set; }
+        public bool ResetButton { get; set; }
+        public bool Wifi { get; set; }
+        public bool Bluetooth { get; set; }
+        public bool BLE { get; set; }
+        public bool Out5V { get; set; }
+        public bool Out3_3V { get; set; }
+        public float MaxSourceAmps { get; set; }
 
         public OBC()
         {
             Interfaces = new List<string>();
         }
-
     }
 }

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace InventoriumLib
 {
-    class Rack : Item
+    public class Rack : Item
     {
-        int Number { get; set; }
-        Rack BinRack { get; set; }
-        int RackXIndex { get; set; }
-        int RackYIndex { get; set; }
-        int RackZIndex { get; set; }
+        public int Number { get; set; }
+        public Rack BinRack { get; set; }
+        public int RackXIndex { get; set; }
+        public int RackYIndex { get; set; }
+        public int RackZIndex { get; set; }
     }
 }

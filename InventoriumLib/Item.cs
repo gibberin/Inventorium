@@ -4,30 +4,30 @@ using System.Text;
 
 namespace InventoriumLib
 {
-    class Item : InvObject
+    public class Item : InvObject
     {
-        string Description { get; set; }
-        string Features { get; set; }
-        string Manufacturer { get; set; }
-        string Model { get; set; }
-        string Source { get; set; }
-        float UnitPrice { get; set; }
-        float Tax { get; set; }
-        float Shipping { get; set; }
-        DateTime DateOfAcquisition { get; set; }
-        DateTime ExpirationDate { get; set; }
+        public string Description { get; set; }
+        public string Features { get; set; }
+        public string Manufacturer { get; set; }
+        public string Model { get; set; }
+        public string Source { get; set; }
+        public float UnitPrice { get; set; }
+        public float Tax { get; set; }
+        public float Shipping { get; set; }
+        public DateTime DateOfAcquisition { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
-        Application Assignment { get; set; }
+        public Application Assignment { get; set; }
 
-        float Height { get; set; }
-        float Width { get; set; }
-        float Depth { get; set; }
-        float Weight { get; set; }
+        public float Height { get; set; }
+        public float Width { get; set; }
+        public float Depth { get; set; }
+        public float Weight { get; set; }
 
-        Bin Bin { get; set; }
+        public Bin Bin { get; set; }
 
 
-        string ImageID;
+        public string ImageID;
 
         public Item()
         {

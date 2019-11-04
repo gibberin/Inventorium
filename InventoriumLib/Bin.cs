@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InventoriumLib
 {
-    class Bin : InvObject
+    public class Bin : InvObject
     {
 
     }
