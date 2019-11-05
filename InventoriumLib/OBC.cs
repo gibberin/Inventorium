@@ -6,7 +6,7 @@ namespace InventoriumLib
 {
     public class OBC : Item
     {
-        IEnumerable<string> Interfaces;
+        public IEnumerable<string> Interfaces;
 
         public string Platform { get; set; }
         public string CPU { get; set; }

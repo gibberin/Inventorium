@@ -10,6 +10,7 @@ namespace InventoriumLib
         public string Features { get; set; }
         public string Manufacturer { get; set; }
         public string Model { get; set; }
+        public string SerialNumber { get; set; }
         public string Source { get; set; }
         public float UnitPrice { get; set; }
         public float Tax { get; set; }
@@ -24,8 +25,7 @@ namespace InventoriumLib
         public float Depth { get; set; }
         public float Weight { get; set; }
 
-        public Bin Bin { get; set; }
-
+        public PartsBin Bin { get; set; }
 
         public string ImageID;
 
