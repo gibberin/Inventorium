@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
 using InventoriumLib;
+using Microsoft.AspNetCore.Identity;
 
 namespace Inventorium.Controllers
 {
     public class BinsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BinsController(ApplicationDbContext context)
+        public BinsController(ApplicationDbContext context,
+                                      UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Bins
@@ -59,6 +63,14 @@ namespace Inventorium.Controllers
             if (ModelState.IsValid)
             {
                 partsBin.ID = Guid.NewGuid();
+
+                // Assign to the current user
+                IdentityUser currUser = await _userManager.GetUserAsync(User);
+                if (null != currUser)
+                {
+                    partsBin.OwnerID = currUser.Id;
+                }
+
                 _context.Add(partsBin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

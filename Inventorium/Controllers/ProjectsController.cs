@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
 using InventoriumLib;
+using Microsoft.AspNetCore.Identity;
 
 namespace Inventorium.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context,
+                                      UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Projects
@@ -59,6 +63,14 @@ namespace Inventorium.Controllers
             if (ModelState.IsValid)
             {
                 project.ID = Guid.NewGuid();
+
+                // Assign to the current user
+                IdentityUser currUser = await _userManager.GetUserAsync(User);
+                if (null != currUser)
+                {
+                    project.OwnerID = currUser.Id;
+                }
+
                 _context.Add(project);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
