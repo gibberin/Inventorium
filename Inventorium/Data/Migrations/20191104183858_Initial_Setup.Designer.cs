@@ -4,14 +4,16 @@ using Inventorium.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventorium.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191104183858_Initial_Setup")]
+    partial class Initial_Setup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("OwnerID");
 
-                    b.Property<string>("Project");
+                    b.Property<string>("ProjectID");
 
                     b.HasKey("ID");
 
@@ -46,23 +48,19 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<int>("Depth");
-
                     b.Property<long>("Edition");
-
-                    b.Property<int>("Height");
-
-                    b.Property<Guid?>("LocationID");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerID");
 
-                    b.Property<int>("Width");
+                    b.Property<int>("RackXIndex");
+
+                    b.Property<int>("RackYIndex");
+
+                    b.Property<int>("RackZIndex");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("LocationID");
 
                     b.ToTable("BinRack");
                 });
@@ -84,9 +82,6 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<long>("Edition");
 
                     b.Property<DateTime>("ExpirationDate");
@@ -102,8 +97,6 @@ namespace Inventorium.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerID");
-
-                    b.Property<string>("SerialNumber");
 
                     b.Property<float>("Shipping");
 
@@ -124,38 +117,6 @@ namespace Inventorium.Data.Migrations
                     b.HasIndex("BinID");
 
                     b.ToTable("Item");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Item");
-                });
-
-            modelBuilder.Entity("InventoriumLib.Location", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Addr1");
-
-                    b.Property<string>("Addr2");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<long>("Edition");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerID");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("Zip");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("InventoriumLib.PartsBin", b =>
@@ -173,39 +134,11 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<Guid?>("RackID");
 
-                    b.Property<int>("RackIndexX");
-
-                    b.Property<int>("RackIndexY");
-
-                    b.Property<int>("RackIndexZ");
-
                     b.HasKey("ID");
 
                     b.HasIndex("RackID");
 
                     b.ToTable("PartsBin");
-                });
-
-            modelBuilder.Entity("InventoriumLib.Project", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Description");
-
-                    b.Property<long>("Edition");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerID");
-
-                    b.Property<DateTime>("TargetDate");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -371,58 +304,6 @@ namespace Inventorium.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("InventoriumLib.OBC", b =>
-                {
-                    b.HasBaseType("InventoriumLib.Item");
-
-                    b.Property<int>("AnalogPinCount");
-
-                    b.Property<bool>("BLE");
-
-                    b.Property<bool>("Bluetooth");
-
-                    b.Property<string>("CPU");
-
-                    b.Property<float>("FlashMemory");
-
-                    b.Property<int>("GPIOCount");
-
-                    b.Property<float>("MaxSourceAmps");
-
-                    b.Property<bool>("Out3_3V");
-
-                    b.Property<bool>("Out5V");
-
-                    b.Property<int>("PWMPinCount");
-
-                    b.Property<string>("Platform");
-
-                    b.Property<bool>("PowerJack");
-
-                    b.Property<float>("RAM");
-
-                    b.Property<bool>("ResetButton");
-
-                    b.Property<int>("USBConnectorCount");
-
-                    b.Property<bool>("USBPower");
-
-                    b.Property<float>("Voltage");
-
-                    b.Property<bool>("Wifi");
-
-                    b.ToTable("OBC");
-
-                    b.HasDiscriminator().HasValue("OBC");
-                });
-
-            modelBuilder.Entity("InventoriumLib.BinRack", b =>
-                {
-                    b.HasOne("InventoriumLib.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationID");
                 });
 
             modelBuilder.Entity("InventoriumLib.Item", b =>

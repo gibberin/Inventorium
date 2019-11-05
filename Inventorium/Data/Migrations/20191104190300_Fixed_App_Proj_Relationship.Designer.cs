@@ -4,14 +4,16 @@ using Inventorium.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventorium.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191104190300_Fixed_App_Proj_Relationship")]
+    partial class Fixed_App_Proj_Relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,23 +48,19 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<int>("Depth");
-
                     b.Property<long>("Edition");
-
-                    b.Property<int>("Height");
-
-                    b.Property<Guid?>("LocationID");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerID");
 
-                    b.Property<int>("Width");
+                    b.Property<int>("RackXIndex");
+
+                    b.Property<int>("RackYIndex");
+
+                    b.Property<int>("RackZIndex");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("LocationID");
 
                     b.ToTable("BinRack");
                 });
@@ -103,8 +101,6 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("OwnerID");
 
-                    b.Property<string>("SerialNumber");
-
                     b.Property<float>("Shipping");
 
                     b.Property<string>("Source");
@@ -128,36 +124,6 @@ namespace Inventorium.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Item");
                 });
 
-            modelBuilder.Entity("InventoriumLib.Location", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Addr1");
-
-                    b.Property<string>("Addr2");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<long>("Edition");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerID");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("Zip");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Location");
-                });
-
             modelBuilder.Entity("InventoriumLib.PartsBin", b =>
                 {
                     b.Property<Guid>("ID")
@@ -173,39 +139,11 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<Guid?>("RackID");
 
-                    b.Property<int>("RackIndexX");
-
-                    b.Property<int>("RackIndexY");
-
-                    b.Property<int>("RackIndexZ");
-
                     b.HasKey("ID");
 
                     b.HasIndex("RackID");
 
                     b.ToTable("PartsBin");
-                });
-
-            modelBuilder.Entity("InventoriumLib.Project", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Description");
-
-                    b.Property<long>("Edition");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerID");
-
-                    b.Property<DateTime>("TargetDate");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -416,13 +354,6 @@ namespace Inventorium.Data.Migrations
                     b.ToTable("OBC");
 
                     b.HasDiscriminator().HasValue("OBC");
-                });
-
-            modelBuilder.Entity("InventoriumLib.BinRack", b =>
-                {
-                    b.HasOne("InventoriumLib.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationID");
                 });
 
             modelBuilder.Entity("InventoriumLib.Item", b =>

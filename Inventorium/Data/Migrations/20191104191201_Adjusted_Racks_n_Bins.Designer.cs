@@ -4,14 +4,16 @@ using Inventorium.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventorium.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191104191201_Adjusted_Racks_n_Bins")]
+    partial class Adjusted_Racks_n_Bins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,8 +104,6 @@ namespace Inventorium.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("OwnerID");
-
-                    b.Property<string>("SerialNumber");
 
                     b.Property<float>("Shipping");
 
