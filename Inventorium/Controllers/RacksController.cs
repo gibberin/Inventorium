@@ -110,6 +110,8 @@ namespace Inventorium.Controllers
             {
                 try
                 {
+                    binRack.Edition++;
+
                     _context.Update(binRack);
                     await _context.SaveChangesAsync();
                 }

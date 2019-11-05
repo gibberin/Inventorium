@@ -89,6 +89,7 @@ namespace Inventorium.Controllers
 
             if (null != part)
             {
+                part.Name = "Like the " + part.Name;
                 part.SerialNumber = "";
             }
 
@@ -116,6 +117,7 @@ namespace Inventorium.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(item);
         }
 
@@ -208,6 +210,8 @@ namespace Inventorium.Controllers
             {
                 try
                 {
+                    item.Edition++;
+
                     _context.Update(item);
                     await _context.SaveChangesAsync();
                 }

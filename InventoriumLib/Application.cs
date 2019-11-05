@@ -7,9 +7,9 @@ namespace InventoriumLib
     /// Object for tracking the application of a given inventory item, e.g. the project it is being used in.
     public class Application : InvObject
     {
-        public string Project { get; set; }
+        public Project Project { get; set; }
 
-        public bool Assigned { get { return string.IsNullOrWhiteSpace(Project); } }
+        public bool Assigned { get { return null == Project; } }
 
         public Application()
         {

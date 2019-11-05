@@ -1,0 +1,233 @@
+﻿@model IEnumerable<InventoriumLib.OBC>
+
+@{
+    ViewData["Title"] = "OBCs";
+}
+
+<h2>On Board Computer (OBC) List</h2>
+
+<p>
+    <a asp-action="Create">Add an OBC</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Features)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Platform)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Voltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RAM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlashMemory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GPIOCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnalogPinCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PWMPinCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.USBConnectorCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowerJack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.USBPower)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResetButton)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wifi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bluetooth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BLE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Out5V)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Out3_3V)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxSourceAmps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shipping)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfAcquisition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Features)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Platform)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RAM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlashMemory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GPIOCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnalogPinCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PWMPinCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USBConnectorCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowerJack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USBPower)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResetButton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wifi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bluetooth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BLE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Out5V)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Out3_3V)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxSourceAmps)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shipping)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfAcquisition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
