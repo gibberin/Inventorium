@@ -10,8 +10,13 @@
     <p style="font-weight: bold;">@Html.DisplayFor(model => model.Manufacturer) @Html.DisplayFor(model => model.Model) (Serial #:@Html.DisplayFor(model => model.SerialNumber))</p>
     <p style="font-size: larger; padding-top:20px">@Html.DisplayFor(model => model.Description)</p>
     <p style="font-size: larger;">@Html.DisplayFor(model => model.Features)</p>
-    <p style="padding-top:20px;">$@Html.DisplayFor(model => model.UnitPrice) ($@Html.DisplayFor(model => model.Tax) tax, $@Html.DisplayFor(model => model.Shipping) shipping) from <b>@Html.DisplayFor(model => model.Source)</b></p>
-    <p>Acquired: @Html.DisplayFor(model => model.DateOfAcquisition) Expiration: @Html.DisplayFor(model => model.ExpirationDate)</p>
+    <p style="padding-top:20px;"><span style="font-size: larger; font-weight: bold; color: red;">@Html.DisplayFor(model => model.UnitPrice)</span> (@Html.DisplayFor(model => model.Tax) tax, @Html.DisplayFor(model => model.Shipping) shipping) from <b>@Html.DisplayFor(model => model.Source)</b></p>
+    <p>
+        Acquired: <span style="font-weight: bold;">@Html.DisplayFor(model => model.DateOfAcquisition)</span>
+    </p>
+    <p>
+        Expiration: <span style="font-weight: bold;">@Html.DisplayFor(model => model.ExpirationDate)</span>
+    </p>
     <p>
         @Html.DisplayFor(model => model.Weight) lbs<br />
         @Html.DisplayFor(model => model.Height)" (h) x @Html.DisplayFor(model => model.Width)" (w) x @Html.DisplayFor(model => model.Depth)" (d)
