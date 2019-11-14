@@ -1,4 +1,4 @@
-﻿@model InventoriumLib.PartsBin
+﻿@model Inventorium.Models.BinViewModel
 
 @{
     ViewData["Title"] = "New Bin";
@@ -15,7 +15,15 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <!-- TODO: Allow selection of a rack or to create a new rack in a new tab/window -->
+            <div class="form-group">
+                <label class="control-label">Racks</label>
+                <select asp-for="SelectedRackID" class="form-control">
+                    @foreach (var rack in Model.Racks)
+                    {
+                        <option value=@rack.ID>@rack.Name</option>
+                    }
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="RackIndexX" class="control-label"></label>
                 <input asp-for="RackIndexX" class="form-control" />

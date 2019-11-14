@@ -34,12 +34,15 @@
                 <span asp-validation-for="Depth" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="Edition" />
+            <input type="hidden" asp-for="OwnerID" />
+            <input type="hidden" asp-for="Created" />
             <!-- TODO: Allow for assignment to a different owner -->
             @*<div class="form-group">
-                <label asp-for="OwnerID" class="control-label"></label>
-                <input asp-for="OwnerID" class="form-control" />
-                <span asp-validation-for="OwnerID" class="text-danger"></span>
-            </div>*@
+            <label asp-for="OwnerID" class="control-label"></label>
+            <input asp-for="OwnerID" class="form-control" />
+            <span asp-validation-for="OwnerID" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

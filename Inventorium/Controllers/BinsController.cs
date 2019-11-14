@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
 using InventoriumLib;
 using Microsoft.AspNetCore.Identity;
+using Inventorium.Models;
 
 namespace Inventorium.Controllers
 {
@@ -26,7 +27,14 @@ namespace Inventorium.Controllers
         // GET: Bins
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PartsBin.ToListAsync());
+            return View(await _context.PartsBin
+                                      .Include("Rack")
+                                      .OrderBy(b => b.Rack.Name)
+                                      .ThenBy(b => b.RackIndexX)
+                                      .ThenBy(b => b.RackIndexY)
+                                      .ThenBy(b => b.RackIndexZ)
+                                      .ThenBy(b => b.Name)
+                                      .ToListAsync());
         }
 
         // GET: Bins/Details/5
@@ -37,7 +45,7 @@ namespace Inventorium.Controllers
                 return NotFound();
             }
 
-            var partsBin = await _context.PartsBin
+            var partsBin = await _context.PartsBin.Include("Rack")
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (partsBin == null)
             {
@@ -48,9 +56,17 @@ namespace Inventorium.Controllers
         }
 
         // GET: Bins/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            BinViewModel binViewModel = new BinViewModel();
+
+            binViewModel.RackIndexX = 1;
+            binViewModel.RackIndexY = 1;
+            binViewModel.RackIndexZ = 1;
+
+            binViewModel.Racks = await _context.BinRack.ToListAsync();
+
+            return View(binViewModel);
         }
 
         // POST: Bins/Create
@@ -58,24 +74,27 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RackIndexX,RackIndexY,RackIndexZ,ID,OwnerID,Name")] PartsBin partsBin)
+        public async Task<IActionResult> Create([Bind("RackIndexX,RackIndexY,RackIndexZ,Name,SelectedRackID")] BinViewModel binViewModel)
         {
+            PartsBin bin = binViewModel.ToBin();
+
             if (ModelState.IsValid)
             {
-                partsBin.ID = Guid.NewGuid();
+                bin.Rack = await _context.BinRack.FindAsync(binViewModel.SelectedRackID);
 
                 // Assign to the current user
                 IdentityUser currUser = await _userManager.GetUserAsync(User);
                 if (null != currUser)
                 {
-                    partsBin.OwnerID = currUser.Id;
+                    bin.OwnerID = currUser.Id;
                 }
 
-                _context.Add(partsBin);
+                _context.Add(bin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(partsBin);
+
+            return View(bin);
         }
 
         // GET: Bins/Edit/5
@@ -91,7 +110,11 @@ namespace Inventorium.Controllers
             {
                 return NotFound();
             }
-            return View(partsBin);
+            
+            BinViewModel binViewModel = new BinViewModel(partsBin);
+            binViewModel.Racks = await _context.BinRack.ToListAsync();
+
+            return (View(binViewModel));
         }
 
         // POST: Bins/Edit/5
@@ -99,18 +122,21 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("RackIndexX,RackIndexY,RackIndexZ,ID,OwnerID,Name")] PartsBin partsBin)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SelectedRackID,Edition,Created,OwnerID,ID,RackIndexX,RackIndexY,RackIndexZ,Name")] BinViewModel binViewModel)
         {
-            if (id != partsBin.ID)
+            if (id != binViewModel.ID)
             {
                 return NotFound();
             }
+
+            PartsBin partsBin = binViewModel.ToBin();
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     partsBin.Edition++;
+                    partsBin.Rack = await _context.BinRack.FindAsync(binViewModel.SelectedRackID);
 
                     _context.Update(partsBin);
                     await _context.SaveChangesAsync();

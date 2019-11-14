@@ -1,10 +1,10 @@
-﻿@model InventoriumLib.PartsBin
+﻿@model Inventorium.Models.BinViewModel
 
 @{
     ViewData["Title"] = "Edit Bin";
 }
 
-<h2>Edit bin '@Model.Name'</h2>
+<h2>Edit Bin '@Model.Name'</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,30 +15,45 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <!-- TODO: Allow for changing of host rack -->
             <div class="form-group">
-                <label asp-for="RackIndexX" class="control-label"></label>
-                <input asp-for="RackIndexX" class="form-control" />
-                <span asp-validation-for="RackIndexX" class="text-danger"></span>
+                <label class="control-label">Racks</label>
+                <select asp-for="SelectedRackID" class="form-control">
+                    @foreach (var rack in Model.Racks)
+                    {
+                        <option value=@rack.ID selected="@(rack.ID == Model.SelectedRackID)">@rack.Name</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="RackIndexY" class="control-label"></label>
-                <input asp-for="RackIndexY" class="form-control" />
-                <span asp-validation-for="RackIndexY" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RackIndexZ" class="control-label"></label>
-                <input asp-for="RackIndexZ" class="form-control" />
-                <span asp-validation-for="RackIndexZ" class="text-danger"></span>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <label class="control-label" style="width: 50px;">X:</label>
+                        <input asp-for="RackIndexX" class="form-control" style="width: 50px;" />
+                        <span asp-validation-for="RackIndexX" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <label class="control-label" style="width: 50px;">Y:</label>
+                        <input asp-for="RackIndexY" class="form-control" style="width: 50px;" />
+                        <span asp-validation-for="RackIndexY" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <label class="control-label" style="width: 50px;">Z:</label>
+                        <input asp-for="RackIndexZ" class="form-control" style="width: 50px;" />
+                        <span asp-validation-for="RackIndexZ" class="text-danger"></span>
+                    </td>
+                </tr>
+            </table>
             <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="OwnerID" />
+            <input type="hidden" asp-for="Edition" />
+            <input type="hidden" asp-for="Created" />
             <!-- Allow for changing of owner -->
             @*<div class="form-group">
                 <label asp-for="OwnerID" class="control-label"></label>
                 <input asp-for="OwnerID" class="form-control" />
                 <span asp-validation-for="OwnerID" class="text-danger"></span>
             </div>*@
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 20px;">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>

@@ -26,7 +26,9 @@ namespace Inventorium.Controllers
         // GET: Racks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BinRack.ToListAsync());
+            return View(await _context.BinRack
+                                      .OrderBy(r => r.Name)
+                                      .ToListAsync());
         }
 
         // GET: Racks/Details/5
@@ -99,7 +101,7 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Height,Width,Depth,ID,OwnerID,Name")] BinRack binRack)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Height,Width,Depth,ID,Edition,Created,OwnerID,Name")] BinRack binRack)
         {
             if (id != binRack.ID)
             {

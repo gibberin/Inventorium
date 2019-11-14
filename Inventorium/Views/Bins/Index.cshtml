@@ -15,47 +15,28 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <!-- TODO: Display the host rack name as a hotlink -->
-            <!-- TODO: Display the owner's name rather than their ID -->
             <th>
-                @Html.DisplayNameFor(model => model.OwnerID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RackIndexX)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RackIndexY)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RackIndexZ)
+                @Html.DisplayNameFor(model => model.Rack)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RackIndexX)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RackIndexY)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RackIndexZ)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var bin in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => bin.Name)
+                </td>
+                <td>
+                    <a asp-controller="Racks" asp-action="Details" asp-route-id="@bin.Rack.ID">@Html.DisplayFor(modelItem => bin.Rack.Name)</a> (@Html.DisplayFor(modelItem => bin.RackIndexX), @Html.DisplayFor(modelItem => bin.RackIndexY), @Html.DisplayFor(modelItem => bin.RackIndexZ))
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@bin.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@bin.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@bin.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

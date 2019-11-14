@@ -27,7 +27,11 @@ namespace Inventorium.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Item.ToListAsync());
+            return View(await _context.Item
+                                      .Include("Bin")
+                                      .OrderBy(i => i.Name)
+                                      .ThenBy(i => i.Bin.Name)
+                                      .ToListAsync());
         }
 
         // GET: Items/Details/5
