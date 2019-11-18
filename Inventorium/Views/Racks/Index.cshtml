@@ -24,10 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Depth)
             </th>
-            <!-- TODO: Display the owner's name rather than their ID -->
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerID)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -45,9 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Depth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

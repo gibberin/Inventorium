@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace InventoriumLib
 {
     public class InvObject
     {
         public Guid ID { get; set; }
+        [DisplayName("Owner")]
         public string OwnerID { get; set; }
         public Int64 Edition { get; set; }
         public String Name { get; set; }

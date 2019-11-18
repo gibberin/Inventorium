@@ -1,4 +1,4 @@
-﻿@model InventoriumLib.Item
+﻿@model Inventorium.Models.ItemViewModel
 
 @{
     ViewData["Title"] = "New Part Like...";
@@ -34,6 +34,11 @@
                 <label asp-for="Model" class="control-label"></label>
                 <input asp-for="Model" class="form-control" />
                 <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InfoUrl" class="control-label"></label>
+                <input asp-for="InfoUrl" class="form-control" />
+                <span asp-validation-for="InfoUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialNumber" class="control-label"></label>
@@ -89,6 +94,15 @@
                 <label asp-for="Weight" class="control-label"></label>
                 <input asp-for="Weight" class="form-control" />
                 <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bin" class="control-label"></label>
+                <select asp-for="SelectedBinID" class="form-control">
+                    @foreach (var bin in Model.Bins)
+                    {
+                        <option value=@bin.ID selected="@(bin.ID == Model.SelectedBinID)">@bin.Name</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

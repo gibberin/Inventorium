@@ -9,36 +9,18 @@
 <div>
     <h4>@Model.Name</h4>
     <hr />
-    <dl class="dl-horizontal">
         <!-- TODO: Display location -->
-        <dt>
-            @Html.DisplayNameFor(model => model.Height)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Height)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Width)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Width)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Depth)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Depth)
-        </dd>
-        <!-- Display the owner's name rather than just the ID -->
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OwnerID)
-        </dd>
-    </dl>
+        <div>
+            @Html.DisplayNameFor(model => model.Height): @Html.DisplayFor(model => model.Height)
+        </div>
+        <div>
+            @Html.DisplayNameFor(model => model.Width): @Html.DisplayFor(model => model.Width)
+        </div>
+        <div>
+            @Html.DisplayNameFor(model => model.Depth): @Html.DisplayFor(model => model.Depth)
+        </div>
 </div>
-<div>
+<div style="margin-top: 20px;">
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

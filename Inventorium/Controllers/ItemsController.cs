@@ -9,6 +9,7 @@ using Inventorium.Data;
 using InventoriumLib;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Inventorium.Models;
 
 namespace Inventorium.Controllers
 {
@@ -54,9 +55,15 @@ namespace Inventorium.Controllers
 
         // GET: Items/Create
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            ItemViewModel itemViewModel = new ItemViewModel();
+            itemViewModel.DateOfAcquisition = DateTime.Now;
+
+            itemViewModel.Bins = await _context.PartsBin.ToListAsync();
+            itemViewModel.Users = await _context.Users.ToListAsync();
+
+            return View(itemViewModel);
         }
 
         // POST: Items/Create
@@ -65,11 +72,14 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name")] Item item)
+        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
+            Item item = itemViewModel.ToItem();
+
             if (ModelState.IsValid)
             {
                 item.ID = Guid.NewGuid();
+                item.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
 
                 // Assign to the current user
                 IdentityUser currUser = await _userManager.GetUserAsync(User);
@@ -89,40 +99,46 @@ namespace Inventorium.Controllers
         [Authorize]
         public async Task<IActionResult> CreateLike(Guid? id)
         {
-            Item part = await _context.Item.FirstOrDefaultAsync(p => p.ID == id);
+            ItemViewModel partViewModel = new ItemViewModel(await _context.Item.FirstOrDefaultAsync(p => p.ID == id));
 
-            if (null != part)
+            if (null != partViewModel)
             {
-                part.Name = "Like the " + part.Name;
-                part.SerialNumber = "";
+                partViewModel.Name = "Like the " + partViewModel.Name;
+                partViewModel.SerialNumber = "";
+                partViewModel.DateOfAcquisition = DateTime.Now;
+
+                partViewModel.Bins = await _context.PartsBin.ToListAsync();
+                partViewModel.Users = await _context.Users.ToListAsync();
             }
 
-            return View(part);
+            return View(partViewModel);
         }
 
         // POST: Items/CreateLike
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateLike([Bind("Description,Features,Manufacturer,Model,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name")] Item item)
+        public async Task<IActionResult> CreateLike([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
             if (ModelState.IsValid)
             {
-                item.ID = Guid.NewGuid();
+                itemViewModel.ID = Guid.NewGuid();
 
                 // Assign to the current user
                 IdentityUser currUser = await _userManager.GetUserAsync(User);
                 if (null != currUser)
                 {
-                    item.OwnerID = currUser.Id;
+                    itemViewModel.OwnerID = currUser.Id;
                 }
 
-                _context.Add(item);
+                itemViewModel.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
+
+                _context.Add(itemViewModel.ToItem());
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(item);
+            return View(itemViewModel);
         }
 
         // GET: Items/Find
@@ -194,7 +210,12 @@ namespace Inventorium.Controllers
             {
                 return NotFound();
             }
-            return View(item);
+
+            ItemViewModel itemViewModel = new ItemViewModel(item);
+            itemViewModel.Bins = await _context.PartsBin.ToListAsync();
+            itemViewModel.Users = await _context.Users.ToListAsync();
+
+            return View(itemViewModel);
         }
 
         // POST: Items/Edit/5
@@ -203,17 +224,20 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Features,Manufacturer,Model,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name")] Item item)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
-            if (id != item.ID)
+            if (id != itemViewModel.ID)
             {
                 return NotFound();
             }
+
+            Item item = itemViewModel.ToItem();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    item.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
                     item.Edition++;
 
                     _context.Update(item);
@@ -232,6 +256,7 @@ namespace Inventorium.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(item);
         }
 

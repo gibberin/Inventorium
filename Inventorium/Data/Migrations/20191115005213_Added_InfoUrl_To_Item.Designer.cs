@@ -4,14 +4,16 @@ using Inventorium.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventorium.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191115005213_Added_InfoUrl_To_Item")]
+    partial class Added_InfoUrl_To_Item
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +82,9 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<DateTime?>("DateOfAcquisition");
+                    b.Property<DateTime>("DateOfAcquisition");
 
-                    b.Property<float?>("Depth");
+                    b.Property<float>("Depth");
 
                     b.Property<string>("Description");
 
@@ -91,11 +93,11 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<long>("Edition");
 
-                    b.Property<DateTime?>("ExpirationDate");
+                    b.Property<DateTime>("ExpirationDate");
 
                     b.Property<string>("Features");
 
-                    b.Property<float?>("Height");
+                    b.Property<float>("Height");
 
                     b.Property<string>("InfoUrl");
 
@@ -109,17 +111,17 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("SerialNumber");
 
-                    b.Property<float?>("Shipping");
+                    b.Property<float>("Shipping");
 
                     b.Property<string>("Source");
 
-                    b.Property<float?>("Tax");
+                    b.Property<float>("Tax");
 
-                    b.Property<float?>("UnitPrice");
+                    b.Property<float>("UnitPrice");
 
-                    b.Property<float?>("Weight");
+                    b.Property<float>("Weight");
 
-                    b.Property<float?>("Width");
+                    b.Property<float>("Width");
 
                     b.HasKey("ID");
 
@@ -205,7 +207,7 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("OwnerID");
 
-                    b.Property<DateTime?>("TargetDate");
+                    b.Property<DateTime>("TargetDate");
 
                     b.HasKey("ID");
 
@@ -381,7 +383,7 @@ namespace Inventorium.Data.Migrations
                 {
                     b.HasBaseType("InventoriumLib.Item");
 
-                    b.Property<int?>("AnalogPinCount");
+                    b.Property<int>("AnalogPinCount");
 
                     b.Property<bool>("BLE");
 
@@ -389,31 +391,31 @@ namespace Inventorium.Data.Migrations
 
                     b.Property<string>("CPU");
 
-                    b.Property<float?>("FlashMemory");
+                    b.Property<float>("FlashMemory");
 
-                    b.Property<int?>("GPIOCount");
+                    b.Property<int>("GPIOCount");
 
-                    b.Property<float?>("MaxSourceAmps");
+                    b.Property<float>("MaxSourceAmps");
 
                     b.Property<bool>("Out3_3V");
 
                     b.Property<bool>("Out5V");
 
-                    b.Property<int?>("PWMPinCount");
+                    b.Property<int>("PWMPinCount");
 
                     b.Property<string>("Platform");
 
                     b.Property<bool>("PowerJack");
 
-                    b.Property<float?>("RAM");
+                    b.Property<float>("RAM");
 
                     b.Property<bool>("ResetButton");
 
-                    b.Property<int?>("USBConnectorCount");
+                    b.Property<int>("USBConnectorCount");
 
                     b.Property<bool>("USBPower");
 
-                    b.Property<float?>("Voltage");
+                    b.Property<float>("Voltage");
 
                     b.Property<bool>("Wifi");
 

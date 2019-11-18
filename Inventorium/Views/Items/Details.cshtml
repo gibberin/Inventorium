@@ -8,15 +8,17 @@
 
 <div>
     <p style="font-weight: bold;">
-        @Html.DisplayFor(model => model.Manufacturer) @Html.DisplayFor(model => model.Model) 
+        @Html.DisplayFor(model => model.Manufacturer) @Html.DisplayFor(model => model.Model)
         @{
-           if (!string.IsNullOrWhiteSpace(Model.SerialNumber)) {
+            if (!string.IsNullOrWhiteSpace(Model.SerialNumber))
+            {
                 <text>"Serial #:"</text> @Model.SerialNumber;
-           }
-         }
+            }
+        }
     </p>
     <p style="font-size: larger; padding-top:20px">@Html.DisplayFor(model => model.Description)</p>
     <p style="font-size: larger;">@Html.DisplayFor(model => model.Features)</p>
+    <p style="font-size: larger;"><a href="@Model.InfoUrl">Info</a></p>
     <p style="padding-top:20px;"><span style="font-size: larger; font-weight: bold; color: red;">@Html.DisplayFor(model => model.UnitPrice)</span> (@Html.DisplayFor(model => model.Tax) tax, @Html.DisplayFor(model => model.Shipping) shipping) from <b>@Html.DisplayFor(model => model.Source)</b></p>
     <p>
         Acquired: <span style="font-weight: bold;">@Html.DisplayFor(model => model.DateOfAcquisition)</span>

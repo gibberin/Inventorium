@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace InventoriumLib
@@ -12,8 +13,11 @@ namespace InventoriumLib
         // Use inherited Name property to track bin #
         public BinRack Rack { get; set; }
 
+        [DisplayName("X")]
         public int RackIndexX { get; set; }
+        [DisplayName("Y")]
         public int RackIndexY { get; set; }
+        [DisplayName("Z")]
         public int RackIndexZ { get; set; }
     }
 }
