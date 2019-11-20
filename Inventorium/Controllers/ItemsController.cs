@@ -60,8 +60,8 @@ namespace Inventorium.Controllers
             ItemViewModel itemViewModel = new ItemViewModel();
             itemViewModel.DateOfAcquisition = DateTime.Now;
 
-            itemViewModel.Bins = await _context.PartsBin.ToListAsync();
-            itemViewModel.Users = await _context.Users.ToListAsync();
+            itemViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
+            itemViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
 
             return View(itemViewModel);
         }
@@ -107,8 +107,8 @@ namespace Inventorium.Controllers
                 partViewModel.SerialNumber = "";
                 partViewModel.DateOfAcquisition = DateTime.Now;
 
-                partViewModel.Bins = await _context.PartsBin.ToListAsync();
-                partViewModel.Users = await _context.Users.ToListAsync();
+                partViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
+                partViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
             }
 
             return View(partViewModel);
@@ -156,6 +156,8 @@ namespace Inventorium.Controllers
                                                                   p.Model.Contains(searchString) ||
                                                                   p.Manufacturer.Contains(searchString) ||
                                                                   p.Source.Contains(searchString))
+                                                                  .OrderBy(i => i.Name)
+                                                                  .ThenBy(i => i.Bin.Name)
                                                                   .ToListAsync();
 
             return View(foundList);
@@ -191,6 +193,8 @@ namespace Inventorium.Controllers
             List<Item> itemList = await _context.Item.Where<Item>(p => p.Name == part.Name ||
                                                                   p.Model == part.Model ||
                                                                   p.Description == part.Description)
+                                                                  .OrderBy(i => i.Name)
+                                                                  .ThenBy(i => i.Bin.Name)
                                                                   .ToListAsync();
 
             return View(itemList);
@@ -212,8 +216,8 @@ namespace Inventorium.Controllers
             }
 
             ItemViewModel itemViewModel = new ItemViewModel(item);
-            itemViewModel.Bins = await _context.PartsBin.ToListAsync();
-            itemViewModel.Users = await _context.Users.ToListAsync();
+            itemViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
+            itemViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
 
             return View(itemViewModel);
         }
