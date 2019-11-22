@@ -9,7 +9,7 @@ namespace InventoriumLib
     {
         public Project Project { get; set; }
 
-        public bool Assigned { get { return null == Project; } }
+        public bool Assigned { get { return null != Project; } }
 
         public Application()
         {

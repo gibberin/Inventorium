@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace Inventorium.Models
 {
-    public class BinViewModel : PartsBin
+    public class BinViewModel : Bin
     {
-        public List<BinRack> Racks { get; set; }
+        public List<Rack> Racks { get; set; }
         public Guid SelectedRackID { get; set; }
 
         public BinViewModel()
         {
-            Racks = new List<BinRack>();
+            Racks = new List<Rack>();
         }
 
-        public BinViewModel(PartsBin bin)
+        public BinViewModel(Bin bin)
         {
             ID = bin.ID;
             OwnerID = bin.OwnerID;
             Edition = bin.Edition;
             Name = bin.Name;
+            Description = bin.Description;
             Created = bin.Created;
             if (null != bin.Rack)
             {
@@ -31,17 +32,18 @@ namespace Inventorium.Models
             RackIndexX = bin.RackIndexX;
             RackIndexY = bin.RackIndexY;
             RackIndexZ = bin.RackIndexZ;
-            Racks = new List<BinRack>();
+            Racks = new List<Rack>();
         }
 
-        public PartsBin ToBin()
+        public Bin ToBin()
         {
-            PartsBin bin = new PartsBin
+            Bin bin = new Bin
             {
                 ID = ID,
                 OwnerID = OwnerID,
                 Edition = Edition,
                 Name = Name,
+                Description = Description,
                 Created = Created,
                 Rack = Rack,
                 RackIndexX = RackIndexX,

@@ -37,6 +37,26 @@ namespace Inventorium.Controllers
                                       .ToListAsync());
         }
 
+        // GET: Bins/Contents/5
+        /// <summary>
+        /// Shows the items reported to be in a given bin
+        /// </summary>
+        /// <param name="id">The unique ID of the bin</param>
+        /// <returns>A view listing the bin's contents</returns>
+        public async Task<IActionResult> Contents(Guid? id)
+        {
+            BinContentsViewModel contents = new BinContentsViewModel();
+
+            contents.Bin = await _context.PartsBin.FindAsync(id);
+
+            contents.Items = await _context.Item
+                                           .Where(i => i.Bin.ID == id)
+                                           .OrderBy(i => i.Name)
+                                           .ToListAsync();
+
+            return View(contents);
+        }
+
         // GET: Bins/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -45,14 +65,14 @@ namespace Inventorium.Controllers
                 return NotFound();
             }
 
-            var partsBin = await _context.PartsBin.Include("Rack")
+            var bin = await _context.PartsBin.Include("Rack")
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (partsBin == null)
+            if (bin == null)
             {
                 return NotFound();
             }
 
-            return View(partsBin);
+            return View(bin);
         }
 
         // GET: Bins/Create
@@ -74,9 +94,9 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RackIndexX,RackIndexY,RackIndexZ,Name,SelectedRackID")] BinViewModel binViewModel)
+        public async Task<IActionResult> Create([Bind("RackIndexX,RackIndexY,RackIndexZ,Name,Description,SelectedRackID")] BinViewModel binViewModel)
         {
-            PartsBin bin = binViewModel.ToBin();
+            Bin bin = binViewModel.ToBin();
 
             if (ModelState.IsValid)
             {
@@ -105,13 +125,13 @@ namespace Inventorium.Controllers
                 return NotFound();
             }
 
-            var partsBin = await _context.PartsBin.FindAsync(id);
-            if (partsBin == null)
+            var bin = await _context.PartsBin.FindAsync(id);
+            if (bin == null)
             {
                 return NotFound();
             }
             
-            BinViewModel binViewModel = new BinViewModel(partsBin);
+            BinViewModel binViewModel = new BinViewModel(bin);
             binViewModel.Racks = await _context.BinRack.ToListAsync();
 
             return (View(binViewModel));
@@ -122,28 +142,28 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("SelectedRackID,Edition,Created,OwnerID,ID,RackIndexX,RackIndexY,RackIndexZ,Name")] BinViewModel binViewModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SelectedRackID,Edition,Created,OwnerID,ID,RackIndexX,RackIndexY,RackIndexZ,Name,Description")] BinViewModel binViewModel)
         {
             if (id != binViewModel.ID)
             {
                 return NotFound();
             }
 
-            PartsBin partsBin = binViewModel.ToBin();
+            Bin bin = binViewModel.ToBin();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    partsBin.Edition++;
-                    partsBin.Rack = await _context.BinRack.FindAsync(binViewModel.SelectedRackID);
+                    bin.IncrementEdition();
+                    bin.Rack = await _context.BinRack.FindAsync(binViewModel.SelectedRackID);
 
-                    _context.Update(partsBin);
+                    _context.Update(bin);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartsBinExists(partsBin.ID))
+                    if (!PartsBinExists(bin.ID))
                     {
                         return NotFound();
                     }
@@ -154,7 +174,7 @@ namespace Inventorium.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(partsBin);
+            return View(bin);
         }
 
         // GET: Bins/Delete/5
@@ -165,14 +185,14 @@ namespace Inventorium.Controllers
                 return NotFound();
             }
 
-            var partsBin = await _context.PartsBin
+            var bin = await _context.PartsBin
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (partsBin == null)
+            if (bin == null)
             {
                 return NotFound();
             }
 
-            return View(partsBin);
+            return View(bin);
         }
 
         // POST: Bins/Delete/5
@@ -180,8 +200,8 @@ namespace Inventorium.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partsBin = await _context.PartsBin.FindAsync(id);
-            _context.PartsBin.Remove(partsBin);
+            var bin = await _context.PartsBin.FindAsync(id);
+            _context.PartsBin.Remove(bin);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

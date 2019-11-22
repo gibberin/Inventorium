@@ -17,7 +17,7 @@ namespace Inventorium.Data
         public DbSet<InventoriumLib.Item> Item { get; set; }
         public DbSet<InventoriumLib.OBC> OBC { get; set; }
         public DbSet<InventoriumLib.Project> Project { get; set; }
-        public DbSet<InventoriumLib.BinRack> BinRack { get; set; }
-        public DbSet<InventoriumLib.PartsBin> PartsBin { get; set; }
+        public DbSet<InventoriumLib.Rack> BinRack { get; set; }
+        public DbSet<InventoriumLib.Bin> PartsBin { get; set; }
     }
 }

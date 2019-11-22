@@ -130,7 +130,7 @@ namespace Inventorium.Controllers
             {
                 try
                 {
-                    OBC.Edition++;
+                    OBC.IncrementEdition();
 
                     _context.Update(OBC);
                     await _context.SaveChangesAsync();

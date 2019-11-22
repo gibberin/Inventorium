@@ -50,7 +50,7 @@ namespace Inventorium.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new Project());
         }
 
         // POST: Projects/Create
@@ -60,6 +60,7 @@ namespace Inventorium.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Description,TargetDate,ID,OwnerID,Name")] Project project)
         {
+            
             if (ModelState.IsValid)
             {
                 project.ID = Guid.NewGuid();
@@ -110,7 +111,7 @@ namespace Inventorium.Controllers
             {
                 try
                 {
-                    project.Edition++;
+                    project.IncrementEdition();
 
                     _context.Update(project);
                     await _context.SaveChangesAsync();

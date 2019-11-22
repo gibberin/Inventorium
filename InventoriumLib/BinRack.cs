@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace InventoriumLib
@@ -7,7 +8,7 @@ namespace InventoriumLib
     /// <summary>
     /// Manages details of a given rack of parts bins
     /// </summary>
-    public class BinRack : InvObject
+    public class Rack : InvObject
     {
         // Use inherited Name property to track rack #
 

@@ -10,13 +10,16 @@ namespace Inventorium.Models
     public class ItemViewModel : Item
     {
         public Guid SelectedBinID { get; set; }
-        public List<PartsBin> Bins;
-        public Guid SelectedOwnerID { get; set; }
+        public List<Project> Projects { get; set; }
+        public Guid SelectedProjectID { get; set; }
+        public List<Bin> Bins;
+        public string SelectedOwnerID { get; set; }
         public List<IdentityUser> Users { get; set; }
 
         public ItemViewModel()
         {
-            Bins = new List<PartsBin>();
+            Projects = new List<Project>();
+            Bins = new List<Bin>();
             Users = new List<IdentityUser>();
         }
 
@@ -26,7 +29,8 @@ namespace Inventorium.Models
         /// <param name="item">The item to copy</param>
         public ItemViewModel(Item item)
         {
-            Bins = new List<PartsBin>();
+            Projects = new List<Project>();
+            Bins = new List<Bin>();
             Users = new List<IdentityUser>();
 
             ID = item.ID;
@@ -51,6 +55,11 @@ namespace Inventorium.Models
             Width = item.Width;
             Depth = item.Depth;
             Weight = item.Weight;
+
+            if ((null != item.Assignment) && item.Assignment.Assigned)
+            {
+                SelectedProjectID = item.Assignment.Project.ID;
+            }
 
             if (null != item.Bin)
             {

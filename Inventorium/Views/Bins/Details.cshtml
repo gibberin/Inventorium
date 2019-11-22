@@ -1,17 +1,23 @@
-﻿@model InventoriumLib.PartsBin
+﻿@model InventoriumLib.Bin
 
 @{
     ViewData["Title"] = "Details";
 }
 
 <h2>Details for bin '@Model.Name'</h2>
+<span style="font-weight: bold;">@Html.DisplayFor(model => model.Description)</span>
 
 <div>
     <hr />
-    <a asp-controller="Racks" asp-action="Details" asp-route-id="@Model.Rack.ID">@Html.DisplayFor(model => model.Rack.Name)</a> (X:@Html.DisplayFor(model => model.RackIndexX), Y:@Html.DisplayFor(model => model.RackIndexY), Z:
-        @Html.DisplayFor(model => model.RackIndexZ))
+    <p>
+        <a asp-controller="Racks" asp-action="Details" asp-route-id="@Model.Rack.ID">@Html.DisplayFor(model => model.Rack.Name)</a>
+        (X:@Html.DisplayFor(model => model.RackIndexX),
+        Y:@Html.DisplayFor(model => model.RackIndexY),
+        Z:@Html.DisplayFor(model => model.RackIndexZ))
+    </p>
 </div>
 <div style="margin-top: 15px;">
+    <a asp-action="Contents" asp-route-id="@Model.ID">Show Contents</a> |
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Bin List</a>
 </div>

@@ -1,0 +1,48 @@
+﻿@model Inventorium.Models.RackContentsViewModel
+
+@{
+    ViewData["Title"] = "Rack Contents";
+}
+
+    <h2>Rack @Model.Rack.Name Contents</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Bin #
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Location
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bin in Model.Bins)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => bin.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bin.Description)
+            </td>
+            <td>
+                <div>
+                    <span>
+                        X:@bin.RackIndexX, Y:@bin.RackIndexY, Z:@bin.RackIndexZ
+                    </span>
+                </div>
+            </td>
+            <td>
+                <a asp-controller="Bins" asp-action="Edit" asp-route-id="@bin.ID"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+                <a asp-controller="Bins" asp-action="Details" asp-route-id="@bin.ID"><span class="glyphicon glyphicon-info-sign" title="Details"></span></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

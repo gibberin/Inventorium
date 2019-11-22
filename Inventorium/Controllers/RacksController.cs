@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
 using InventoriumLib;
 using Microsoft.AspNetCore.Identity;
+using Inventorium.Models;
 
 namespace Inventorium.Controllers
 {
@@ -29,6 +30,29 @@ namespace Inventorium.Controllers
             return View(await _context.BinRack
                                       .OrderBy(r => r.Name)
                                       .ToListAsync());
+        }
+
+        // GET: Racks/Contents/5
+        /// <summary>
+        /// Shows the bins reported to be in a given rack
+        /// </summary>
+        /// <param name="id">The unique ID of the rack</param>
+        /// <returns>A view listing the rack's contents</returns>
+        public async Task<IActionResult> Contents(Guid? id)
+        {
+            RackContentsViewModel contents = new RackContentsViewModel();
+
+            contents.Rack = await _context.BinRack.FindAsync(id);
+
+            contents.Bins = await _context.PartsBin
+                                           .Where(i => i.Rack.ID == id)
+                                           .OrderBy(i => i.RackIndexX)
+                                           .ThenBy(i => i.RackIndexY)
+                                           .ThenBy(i => i.RackIndexZ)
+                                           .ThenBy(i => i.Name)
+                                           .ToListAsync();
+
+            return View(contents);
         }
 
         // GET: Racks/Details/5
@@ -60,7 +84,7 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Height,Width,Depth,ID,OwnerID,Name")] BinRack binRack)
+        public async Task<IActionResult> Create([Bind("Height,Width,Depth,ID,OwnerID,Name")] Rack binRack)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +125,7 @@ namespace Inventorium.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Height,Width,Depth,ID,Edition,Created,OwnerID,Name")] BinRack binRack)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Height,Width,Depth,ID,Edition,Created,OwnerID,Name")] Rack binRack)
         {
             if (id != binRack.ID)
             {
@@ -112,14 +136,14 @@ namespace Inventorium.Controllers
             {
                 try
                 {
-                    binRack.Edition++;
+                    binRack.IncrementEdition();
 
                     _context.Update(binRack);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BinRackExists(binRack.ID))
+                    if (!RackExists(binRack.ID))
                     {
                         return NotFound();
                     }
@@ -162,7 +186,7 @@ namespace Inventorium.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BinRackExists(Guid id)
+        private bool RackExists(Guid id)
         {
             return _context.BinRack.Any(e => e.ID == id);
         }

@@ -30,6 +30,7 @@ namespace Inventorium.Controllers
         {
             return View(await _context.Item
                                       .Include("Bin")
+                                      .Include("Assignment")
                                       .OrderBy(i => i.Name)
                                       .ThenBy(i => i.Bin.Name)
                                       .ToListAsync());
@@ -44,7 +45,9 @@ namespace Inventorium.Controllers
             }
 
             var item = await _context.Item
-                .FirstOrDefaultAsync(m => m.ID == id);
+                                     .Include(i => i.Assignment)
+                                     .ThenInclude(a => a.Project)
+                                     .FirstOrDefaultAsync(m => m.ID == id);
             if (item == null)
             {
                 return NotFound();
@@ -60,7 +63,12 @@ namespace Inventorium.Controllers
             ItemViewModel itemViewModel = new ItemViewModel();
             itemViewModel.DateOfAcquisition = DateTime.Now;
 
+            itemViewModel.Projects = await _context.Project.OrderBy(p => p.Name).ToListAsync();
+            Project noProject = new Project() { Name = "Unassigned", ID = Guid.Empty };
+            itemViewModel.Projects.Insert(0, noProject);
+
             itemViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
+
             itemViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
 
             return View(itemViewModel);
@@ -72,14 +80,17 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
+        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedProjectID,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
             Item item = itemViewModel.ToItem();
 
             if (ModelState.IsValid)
             {
                 item.ID = Guid.NewGuid();
-                item.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
+                if (Guid.Empty != itemViewModel.SelectedProjectID)
+                {
+                    item.Assignment.Project = await _context.Project.FindAsync(itemViewModel.SelectedProjectID);
+                }
 
                 // Assign to the current user
                 IdentityUser currUser = await _userManager.GetUserAsync(User);
@@ -99,7 +110,10 @@ namespace Inventorium.Controllers
         [Authorize]
         public async Task<IActionResult> CreateLike(Guid? id)
         {
-            ItemViewModel partViewModel = new ItemViewModel(await _context.Item.FirstOrDefaultAsync(p => p.ID == id));
+            ItemViewModel partViewModel = new ItemViewModel(await _context.Item
+                                                                          .Include(i => i.Assignment)
+                                                                          .Include(i => i.Bin)
+                                                                          .FirstOrDefaultAsync(p => p.ID == id));
 
             if (null != partViewModel)
             {
@@ -107,8 +121,15 @@ namespace Inventorium.Controllers
                 partViewModel.SerialNumber = "";
                 partViewModel.DateOfAcquisition = DateTime.Now;
 
+                partViewModel.Projects = await _context.Project.OrderBy(p => p.Name).ToListAsync();
                 partViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
                 partViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
+
+                if (partViewModel.Assignment.Assigned)
+                {
+                    partViewModel.SelectedProjectID = partViewModel.Assignment.Project.ID;
+                }
+                partViewModel.SelectedBinID = partViewModel.Bin.ID;
             }
 
             return View(partViewModel);
@@ -118,7 +139,7 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateLike([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
+        public async Task<IActionResult> CreateLike([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedProjectID,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -131,6 +152,7 @@ namespace Inventorium.Controllers
                     itemViewModel.OwnerID = currUser.Id;
                 }
 
+                itemViewModel.Assignment.Project = await _context.Project.FindAsync(itemViewModel.SelectedProjectID);
                 itemViewModel.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
 
                 _context.Add(itemViewModel.ToItem());
@@ -209,15 +231,32 @@ namespace Inventorium.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Item.FindAsync(id);
+            Item item = await _context.Item
+                                      .Include(i => i.Assignment)
+                                      .ThenInclude(a => a.Project)
+                                      .FirstOrDefaultAsync(i => i.ID == id);
             if (item == null)
             {
                 return NotFound();
             }
 
             ItemViewModel itemViewModel = new ItemViewModel(item);
+            itemViewModel.Projects = await _context.Project.OrderBy(p => p.Name).ToListAsync();
+            Project noProject = new Project() { Name = "Unassigned", ID = Guid.Empty };
+            itemViewModel.Projects.Insert(0, noProject);
+            if((null != item.Assignment) && (item.Assignment.Assigned))
+            {
+                itemViewModel.SelectedProjectID = item.Assignment.Project.ID;
+            }
+                
             itemViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
+            if (null != item.Bin)
+            {
+                itemViewModel.SelectedBinID = item.Bin.ID;
+            }
+
             itemViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
+            itemViewModel.SelectedOwnerID = item.OwnerID;
 
             return View(itemViewModel);
         }
@@ -228,21 +267,26 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedProjectID,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
         {
             if (id != itemViewModel.ID)
             {
                 return NotFound();
             }
 
-            Item item = itemViewModel.ToItem();
+            Item item = await _context.Item.FindAsync(id);
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    item.Copy(itemViewModel);
+                    if (Guid.Empty != itemViewModel.SelectedProjectID)
+                    {
+                        item.Assignment.Project = await _context.Project.FindAsync(itemViewModel.SelectedProjectID);
+                    }
                     item.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
-                    item.Edition++;
+                    item.IncrementEdition();
 
                     _context.Update(item);
                     await _context.SaveChangesAsync();

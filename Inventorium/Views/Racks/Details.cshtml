@@ -1,4 +1,4 @@
-﻿@model InventoriumLib.BinRack
+﻿@model InventoriumLib.Rack
 
 @{
     ViewData["Title"] = "Details";
@@ -9,18 +9,21 @@
 <div>
     <h4>@Model.Name</h4>
     <hr />
-        <!-- TODO: Display location -->
-        <div>
+    <!-- TODO: Display location -->
+    <div>
+        <span style="margin-right: 15px;">
             @Html.DisplayNameFor(model => model.Height): @Html.DisplayFor(model => model.Height)
-        </div>
-        <div>
+        </span>
+        <span style="margin-right: 15px;">
             @Html.DisplayNameFor(model => model.Width): @Html.DisplayFor(model => model.Width)
-        </div>
-        <div>
+        </span>
+        <span style="margin-right: 15px;">
             @Html.DisplayNameFor(model => model.Depth): @Html.DisplayFor(model => model.Depth)
-        </div>
+        </span>
+    </div>
 </div>
 <div style="margin-top: 20px;">
+    <a asp-action="Contents" asp-route-id="@Model.ID">Contents</a> |
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Rack List</a>
 </div>

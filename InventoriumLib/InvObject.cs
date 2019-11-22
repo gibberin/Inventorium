@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoriumLib
 {
@@ -10,6 +11,9 @@ namespace InventoriumLib
         public string OwnerID { get; set; }
         public Int64 Edition { get; set; }
         public String Name { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Created On")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Created { get; set; }
 
         public InvObject()
@@ -24,7 +28,7 @@ namespace InventoriumLib
         /// Increments the object's edition by one
         /// </summary>
         /// <returns>The new edition as an int</returns>
-        public Int64 incrementEdition()
+        public Int64 IncrementEdition()
         {
             if (this.Edition >= Int64.MaxValue)
             {

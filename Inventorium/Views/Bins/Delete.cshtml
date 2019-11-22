@@ -1,4 +1,4 @@
-﻿@model InventoriumLib.PartsBin
+﻿@model InventoriumLib.Bin
 
 @{
     ViewData["Title"] = "Delete Bin";
@@ -11,34 +11,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.RackIndexX)
+            @Html.DisplayNameFor(model => model.RackIndexX): @Html.DisplayFor(model => model.RackIndexX)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RackIndexX)
-        </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RackIndexY)
+            @Html.DisplayNameFor(model => model.RackIndexY): @Html.DisplayFor(model => model.RackIndexY)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RackIndexY)
-        </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RackIndexZ)
+            @Html.DisplayNameFor(model => model.RackIndexZ): @Html.DisplayFor(model => model.RackIndexZ)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RackIndexZ)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OwnerID)
-        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">Bin List</a>
     </form>
 </div>

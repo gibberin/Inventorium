@@ -14,5 +14,10 @@ namespace InventoriumLib
         [DisplayName("Target Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")] 
         public DateTime? TargetDate { get; set; }
+
+        public Project()
+        {
+            TargetDate = DateTime.UtcNow;
+        }
     }
 }

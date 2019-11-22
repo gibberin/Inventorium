@@ -8,10 +8,12 @@ namespace InventoriumLib
     /// <summary>
     /// Manages details of a given parts bin
     /// </summary>
-    public class PartsBin : InvObject
+    public class Bin : InvObject
     {
         // Use inherited Name property to track bin #
-        public BinRack Rack { get; set; }
+        public string Description { get; set; }
+
+        public Rack Rack { get; set; }
 
         [DisplayName("X")]
         public int RackIndexX { get; set; }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InventoriumLib.PartsBin>
+﻿@model IEnumerable<InventoriumLib.Bin>
 
 @{
     ViewData["Title"] = "Bins";
@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Rack)
             </th>
             <th></th>
@@ -24,19 +27,22 @@
     <tbody>
         @foreach (var bin in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => bin.Name)
-                </td>
-                <td>
-                    <a asp-controller="Racks" asp-action="Details" asp-route-id="@bin.Rack.ID">@Html.DisplayFor(modelItem => bin.Rack.Name)</a> (@Html.DisplayFor(modelItem => bin.RackIndexX), @Html.DisplayFor(modelItem => bin.RackIndexY), @Html.DisplayFor(modelItem => bin.RackIndexZ))
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@bin.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@bin.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@bin.ID">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => bin.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bin.Description)
+            </td>
+            <td>
+                <a asp-controller="Racks" asp-action="Details" asp-route-id="@bin.Rack.ID">@Html.DisplayFor(modelItem => bin.Rack.Name)</a> (@Html.DisplayFor(modelItem => bin.RackIndexX), @Html.DisplayFor(modelItem => bin.RackIndexY), @Html.DisplayFor(modelItem => bin.RackIndexZ))
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@bin.ID"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+                <a asp-action="Details" asp-route-id="@bin.ID"><span class="glyphicon glyphicon-info-sign" title="Details"></span></a>
+                <a asp-action="Delete" asp-route-id="@bin.ID"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

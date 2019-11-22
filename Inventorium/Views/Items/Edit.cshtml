@@ -98,11 +98,20 @@
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Assignment" class="control-label"></label>
+                <select asp-for="SelectedProjectID" class="form-control">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <option value=@project.ID>@project.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Bin" class="control-label"></label>
                 <select asp-for="SelectedBinID" class="form-control">
                     @foreach (var bin in Model.Bins)
                     {
-                        <option value=@bin.ID selected="@(bin.ID == Model.SelectedBinID)">@bin.Name</option>
+                        <option value=@bin.ID>@bin.Name</option>
                     }
                 </select>
             </div>
@@ -120,7 +129,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Parts List</a>
 </div>
 
 @section Scripts {
