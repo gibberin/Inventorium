@@ -1,0 +1,40 @@
+﻿@model Inventorium.Models.ProjectAssignmentsViewModel
+
+@{
+    ViewData["Title"] = "Project Assignments";
+}
+
+    <h2>Bin @Model.Project.Name Assignments</h2>
+    <span style="font-weight: bold;">@Model.Project.Description</span>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Item
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-controller="Items" asp-action="Edit" asp-route-id="@item.ID"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+                    <a asp-controller="Items" asp-action="Details" asp-route-id="@item.ID"><span class="glyphicon glyphicon-info-sign" title="Details"></span></a>
+                    <a asp-controller="Items" asp-action="Delete" asp-route-id="@item.ID"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -111,7 +111,14 @@
                 <select asp-for="SelectedBinID" class="form-control">
                     @foreach (var bin in Model.Bins)
                     {
-                        <option value=@bin.ID>@bin.Name</option>
+                        string description = "";
+                        if (!string.IsNullOrWhiteSpace(@bin.Description))
+                            {
+                                description = " - " + @bin.Description;
+
+                            }
+
+                        <option value="@bin.ID">@bin.Name@description</option>
                     }
                 </select>
             </div>

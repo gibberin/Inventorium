@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
 using InventoriumLib;
 using Microsoft.AspNetCore.Identity;
+using Inventorium.Models;
 
 namespace Inventorium.Controllers
 {
@@ -27,6 +28,26 @@ namespace Inventorium.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Project.ToListAsync());
+        }
+
+        // GET: Projects/Assignments/5
+        /// <summary>
+        /// Shows the items assigned to a given project
+        /// </summary>
+        /// <param name="id">The unique ID of the project</param>
+        /// <returns>A view listing the project's assigned assets</returns>
+        public async Task<IActionResult> Assignments(Guid? id)
+        {
+            ProjectAssignmentsViewModel assignments = new ProjectAssignmentsViewModel();
+
+            assignments.Project = await _context.Project.FindAsync(id);
+
+            assignments.Items = await _context.Item
+                                           .Where(i => i.Assignment.Project.ID == id)
+                                           .OrderBy(i => i.Name)
+                                           .ToListAsync();
+
+            return View(assignments);
         }
 
         // GET: Projects/Details/5
