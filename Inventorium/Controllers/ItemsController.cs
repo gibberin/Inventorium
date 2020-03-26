@@ -29,8 +29,9 @@ namespace Inventorium.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Item
+                                      .Include(i => i.Assignment)
+                                      .ThenInclude(a => a.Project)
                                       .Include("Bin")
-                                      .Include("Assignment")
                                       .OrderBy(i => i.Name)
                                       .ThenBy(i => i.Bin.Name)
                                       .ToListAsync());
@@ -92,6 +93,8 @@ namespace Inventorium.Controllers
                     item.Assignment.Project = await _context.Project.FindAsync(itemViewModel.SelectedProjectID);
                 }
 
+                item.Bin = await _context.PartsBin.FindAsync(itemViewModel.SelectedBinID);
+
                 // Assign to the current user
                 IdentityUser currUser = await _userManager.GetUserAsync(User);
                 if (null != currUser)
@@ -122,6 +125,8 @@ namespace Inventorium.Controllers
                 partViewModel.DateOfAcquisition = DateTime.Now;
 
                 partViewModel.Projects = await _context.Project.OrderBy(p => p.Name).ToListAsync();
+                Project noProject = new Project() { Name = "Unassigned", ID = Guid.Empty };
+                partViewModel.Projects.Insert(0, noProject);
                 partViewModel.Bins = await _context.PartsBin.OrderBy(b => b.Name).ThenBy(i => i.Name).ToListAsync();
                 partViewModel.Users = await _context.Users.OrderBy(u => u.UserName).ToListAsync();
 
@@ -164,8 +169,11 @@ namespace Inventorium.Controllers
         }
 
         // GET: Items/Find
+        [HttpPost]
         public async Task<IActionResult> Find(string searchString)
         {
+            //string searchString = id;
+
             if(string.IsNullOrWhiteSpace(searchString))
             {
                 return View();
@@ -234,6 +242,7 @@ namespace Inventorium.Controllers
             Item item = await _context.Item
                                       .Include(i => i.Assignment)
                                       .ThenInclude(a => a.Project)
+                                      .Include(i => i.Bin)
                                       .FirstOrDefaultAsync(i => i.ID == id);
             if (item == null)
             {

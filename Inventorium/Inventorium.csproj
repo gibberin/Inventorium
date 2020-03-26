@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-Inventorium-284C52CB-1B6C-4CC6-B3FA-2EFD9BCB0F58</UserSecretsId>
     <Version>0.0.2</Version>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
