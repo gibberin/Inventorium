@@ -125,8 +125,14 @@
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
                 <label asp-for="OwnerID" class="control-label"></label>
-                <input asp-for="OwnerID" class="form-control" />
-                <span asp-validation-for="OwnerID" class="text-danger"></span>
+                @*<input asp-for="SelectedOwnerID" class="form-control" />*@
+                <select asp-for="SelectedOwnerID" class="form-control">
+                    @*<span asp-validation-for="OwnerID" class="text-danger"></span>*@
+                    @foreach (var user in Model.Users)
+                    {
+                        <option value="@user.Id">@user.UserName</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
