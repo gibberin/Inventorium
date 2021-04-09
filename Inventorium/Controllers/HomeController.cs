@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Inventorium.Models;
+using Nventorium.Models;
 
-namespace Inventorium.Controllers
+namespace Nventorium.Controllers
 {
     public class HomeController : Controller
     {

@@ -13,7 +13,7 @@ using Inventorium.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Inventorium
+namespace Nventorium
 {
     public class Startup
     {

@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
-using InventoriumLib;
+using NventoriumLib;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Inventorium.Models;
+using Nventorium.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace Inventorium.Controllers
+namespace Nventorium.Controllers
 {
     public class ItemsController : Controller
     {
@@ -81,7 +82,7 @@ namespace Inventorium.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedProjectID,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel)
+        public async Task<IActionResult> Create([Bind("Description,Features,Manufacturer,Model,InfoUrl,SerialNumber,Source,UnitPrice,Tax,Shipping,DateOfAcquisition,ExpirationDate,Height,Width,Depth,Weight,ID,OwnerID,Name,SelectedProjectID,SelectedBinID,SelectedOwnerID")] ItemViewModel itemViewModel, IFormFile Image)
         {
             Item item = itemViewModel.ToItem();
 

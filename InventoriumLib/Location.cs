@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InventoriumLib
+namespace NventoriumLib
 {
     public class Location : InvObject
     {

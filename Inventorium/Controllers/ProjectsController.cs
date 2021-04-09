@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
-using InventoriumLib;
+using NventoriumLib;
 using Microsoft.AspNetCore.Identity;
-using Inventorium.Models;
+using Nventorium.Models;
 
-namespace Inventorium.Controllers
+namespace Nventorium.Controllers
 {
     public class ProjectsController : Controller
     {

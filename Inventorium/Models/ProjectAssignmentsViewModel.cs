@@ -1,10 +1,10 @@
-﻿using InventoriumLib;
+﻿using NventoriumLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inventorium.Models
+namespace Nventorium.Models
 {
     public class ProjectAssignmentsViewModel
     {

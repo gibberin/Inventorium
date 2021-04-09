@@ -1,6 +1,6 @@
 using System;
 
-namespace Inventorium.Models
+namespace Nventorium.Models
 {
     public class ErrorViewModel
     {

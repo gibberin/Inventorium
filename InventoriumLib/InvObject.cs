@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace InventoriumLib
+namespace NventoriumLib
 {
     public class InvObject
     {

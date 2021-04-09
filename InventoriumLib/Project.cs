@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace InventoriumLib
+namespace NventoriumLib
 {
     public class Project : InvObject
     {

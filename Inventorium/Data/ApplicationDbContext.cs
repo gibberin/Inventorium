@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using InventoriumLib;
+using NventoriumLib;
 
 namespace Inventorium.Data
 {
@@ -13,11 +13,11 @@ namespace Inventorium.Data
             : base(options)
         {
         }
-        public DbSet<InventoriumLib.Application> Application { get; set; }
-        public DbSet<InventoriumLib.Item> Item { get; set; }
-        public DbSet<InventoriumLib.OBC> OBC { get; set; }
-        public DbSet<InventoriumLib.Project> Project { get; set; }
-        public DbSet<InventoriumLib.Rack> BinRack { get; set; }
-        public DbSet<InventoriumLib.Bin> PartsBin { get; set; }
+        public DbSet<NventoriumLib.Application> Application { get; set; }
+        public DbSet<NventoriumLib.Item> Item { get; set; }
+        public DbSet<NventoriumLib.OBC> OBC { get; set; }
+        public DbSet<NventoriumLib.Project> Project { get; set; }
+        public DbSet<NventoriumLib.Rack> BinRack { get; set; }
+        public DbSet<NventoriumLib.Bin> PartsBin { get; set; }
     }
 }

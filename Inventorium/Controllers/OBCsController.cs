@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inventorium.Data;
-using InventoriumLib;
+using NventoriumLib;
 
-namespace Inventorium.Controllers
+namespace Nventorium.Controllers
 {
     public class OBCsController : Controller
     {

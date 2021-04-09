@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InventoriumLib
+namespace NventoriumLib
 {
     /// Object for tracking the application of a given inventory item, e.g. the project it is being used in.
     public class Application : InvObject

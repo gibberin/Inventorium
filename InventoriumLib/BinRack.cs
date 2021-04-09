@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace InventoriumLib
+namespace NventoriumLib
 {
     /// <summary>
     /// Manages details of a given rack of parts bins
