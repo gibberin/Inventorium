@@ -10,7 +10,7 @@ using NventoriumLib;
 using Microsoft.AspNetCore.Identity;
 using Nventorium.Models;
 
-namespace Inventorium.Controllers
+namespace Nventorium.Controllers
 {
     public class BinsController : Controller
     {
